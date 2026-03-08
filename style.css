@@ -1,0 +1,31 @@
+#container {
+  padding: 4px 8px;
+  width: 279px;
+  height: 514px;
+  background-color: red;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  width: 257px;
+  height: 50px;
+  margin: 10px 0;
+}
+
+::placeholder {
+  color: black;
+  opacity: 1;
+}
+
+#btn-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.number-btn {
+  height: 55px;
+  width: 33%;
+}
