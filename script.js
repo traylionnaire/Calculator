@@ -1,5 +1,7 @@
-const input = document.querySelector('input')
+const input = document.querySelector('#input')
 const operationArray = [];
+let currentNum;
+let isOneValue = false;
 
 function add(a, b) {
   return a + b;
@@ -35,18 +37,29 @@ function displayResult() {
     input.value = '';
     input.placeholder = operationArray[0];
   } else {
-    input.value = '';
-    input.placeholder = 0;
+    input.value = '0';
   }
 }
 
 function calculateArray() {
-  const a = Number(operationArray[0]);
-  const b = Number(operationArray[2]);
-  const operator = operationArray[1];
-
-  const result = operate(a, b, operator);
-  operationArray.splice(0, 3, String(result));
+  let a, b, operator;
+  let result;
+  if (operationArray.length >= 3) {
+    a = Number(operationArray[0]);
+    b = Number(operationArray[2]);
+    operator = operationArray[1];
+    console.log('yes');
+    result = operate(a, b, operator);
+    operationArray.splice(0, 3, String(result));
+  } else if (operationArray.length == 2 && isOneValue) {
+    a = Number(operationArray[0]);
+    b = Number(currentNum);
+    operator = operationArray[1];
+    console.log('yes yes');
+    result = operate(a, b, operator);
+    operationArray[0] = result;
+  }
+ 
 }
 
 document.querySelectorAll('.number-btn')
@@ -64,16 +77,15 @@ document.querySelectorAll('.number-btn')
 document.querySelectorAll('.operator-btn')
   .forEach(operatorBtn => {
     operatorBtn.addEventListener('click', () => {
-      if (input.value != '') {
+      // check if an operator was click again.
+       if (input.value != '') {
         operationArray.push(input.value);
         operationArray.push(operatorBtn.textContent);
       } else {
+        // change the previous operator to new one ['1', '+'] -> ['1', '-']
         operationArray[1] = operatorBtn.textContent;
       }
-      
-      if (operationArray.length == 4) {
-        calculateArray();
-      }
+      calculateArray();
       displayResult();
       console.log(operationArray);
     })
@@ -86,6 +98,11 @@ document.querySelector('#equal-btn')
       operationArray.push(input.value);
       calculateArray();
       displayResult();
+    } else {
+      isOneValue = true;
+      currentNum = operationArray[0];
+      calculateArray();
+      isOneValue = false;
     }
     console.log(operationArray);
   })
