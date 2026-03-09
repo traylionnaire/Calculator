@@ -1,4 +1,4 @@
-const input = document.querySelector('#input')
+const input = document.querySelector('#input');
 const operationArray = [];
 
 function add(a, b) {
@@ -81,8 +81,8 @@ document.querySelectorAll('.operator-btn')
       calculateArray();
       displayResult();
       console.log(operationArray);
-    })
-  })
+    });
+  });
 
 document.querySelector('#equal-btn')
   .addEventListener('click', () => {
@@ -92,26 +92,55 @@ document.querySelector('#equal-btn')
     calculateArray();
     displayResult();
     console.log(operationArray);
-  })
+  });
 
 document.querySelector('#clear-btn')
   .addEventListener('click', () => {
     operationArray.length = 0;
     displayResult();
-  })
+  });
 
 document.querySelector('#backspace-btn')
   .addEventListener('click', () => {
-    console.log(operationArray);
-    console.log('erase');
-  })
+    lastDigit = input.value.length - 1;
+    input.value = input.value.substring(0, lastDigit)
+
+    if (input.value == '' || (input.value.length == 1 && input.value.includes('-'))) {
+      input.value = 0;
+    }
+  });
 
 document.querySelector('#negative-btn')
   .addEventListener('click', () => {
-    console.log('negative');
-  })
+    if (!input.value.includes('-')) {
+      input.value = `-${input.value}`;
+    } else {
+      input.value = input.value.substring(1, input.value.length)
+    }
+  });
 
 document.querySelector('#decimal-btn')
   .addEventListener('click', () => {
-    console.log('dot');
-  })
+    if (!input.value.includes('.')) {
+      input.value += '.';
+    }
+  });
+
+document.querySelectorAll('button')
+  .forEach(button => {
+    button.addEventListener('click', () => {
+      if (button.value == operationArray[1]) {
+        buttonUntoggle();
+        button.classList.add('active-btn');
+      } else {
+        buttonUntoggle();
+      }
+    });
+  });
+
+function buttonUntoggle() {
+  document.querySelectorAll('button')
+    .forEach(button => {
+      button.classList.remove('active-btn')
+    });
+}

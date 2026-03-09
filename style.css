@@ -63,6 +63,10 @@ button {
   background-color: gainsboro;
 }
 
-.number-btn:active {
+/* .number-btn:active {
+  background-color: gainsboro;
+} */
+
+.active-btn {
   background-color: gainsboro;
 }
