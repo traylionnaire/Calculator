@@ -1,7 +1,5 @@
 const input = document.querySelector('#input')
 const operationArray = [];
-let currentNum;
-let isOneValue = false;
 
 function add(a, b) {
   return a + b;
@@ -44,22 +42,17 @@ function displayResult() {
 function calculateArray() {
   let a, b, operator;
   let result;
+  if (operationArray.length == 3 && '+-*/'.includes(operationArray[2])) {      
+    operationArray.shift();
+  } 
+  
   if (operationArray.length >= 3) {
     a = Number(operationArray[0]);
     b = Number(operationArray[2]);
     operator = operationArray[1];
-    console.log('yes');
     result = operate(a, b, operator);
     operationArray.splice(0, 3, String(result));
-  } else if (operationArray.length == 2 && isOneValue) {
-    a = Number(operationArray[0]);
-    b = Number(currentNum);
-    operator = operationArray[1];
-    console.log('yes yes');
-    result = operate(a, b, operator);
-    operationArray[0] = result;
-  }
- 
+  } 
 }
 
 document.querySelectorAll('.number-btn')
@@ -78,12 +71,12 @@ document.querySelectorAll('.operator-btn')
   .forEach(operatorBtn => {
     operatorBtn.addEventListener('click', () => {
       // check if an operator was click again.
-       if (input.value != '') {
+      if (input.value != '') {
         operationArray.push(input.value);
-        operationArray.push(operatorBtn.textContent);
+        operationArray.push(operatorBtn.value);
       } else {
         // change the previous operator to new one ['1', '+'] -> ['1', '-']
-        operationArray[1] = operatorBtn.textContent;
+        operationArray[1] = operatorBtn.value;
       }
       calculateArray();
       displayResult();
@@ -91,25 +84,34 @@ document.querySelectorAll('.operator-btn')
     })
   })
 
-
 document.querySelector('#equal-btn')
   .addEventListener('click', () => {
     if (operationArray.length == 2 && input.value != '') {
       operationArray.push(input.value);
-      calculateArray();
-      displayResult();
-    } else {
-      isOneValue = true;
-      currentNum = operationArray[0];
-      calculateArray();
-      isOneValue = false;
     }
+    calculateArray();
+    displayResult();
     console.log(operationArray);
   })
-
 
 document.querySelector('#clear-btn')
   .addEventListener('click', () => {
     operationArray.length = 0;
     displayResult();
+  })
+
+document.querySelector('#backspace-btn')
+  .addEventListener('click', () => {
+    console.log(operationArray);
+    console.log('erase');
+  })
+
+document.querySelector('#negative-btn')
+  .addEventListener('click', () => {
+    console.log('negative');
+  })
+
+document.querySelector('#decimal-btn')
+  .addEventListener('click', () => {
+    console.log('dot');
   })
